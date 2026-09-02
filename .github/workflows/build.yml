@@ -82,7 +82,7 @@ jobs:
           - macOS Apple Silicon: Desktop-Pet-*-mac-arm64.dmg or .zip
           - Linux: Desktop-Pet-*-linux-x86_64.AppImage or Desktop-Pet-*-linux-x64.tar.gz
 
-          See README.md for English instructions, README.zh-CN.md for Simplified Chinese, and README.ja.md for Japanese.
+          See README.md for setup and project information.
           EOF
           gh release delete latest --repo "$REPOSITORY" --yes --cleanup-tag || true
           gh release create latest release-assets/**/* \
