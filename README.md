@@ -1,64 +1,79 @@
-# Naruto Desktop Pet
+# 🥷🍥 Naruto Desktop Pet
 
-A cute Windows desktop companion built by extending the open-source
-[TonyNa-code/desktop-pet](https://github.com/TonyNa-code/desktop-pet) foundation.
+> A tiny ninja companion for your desktop—and eventually, your coding sessions.
 
-The current focus is a lightweight animated pet that works without an API key.
-Chat and voice features remain available in the underlying application for a
-future phase.
+[![Build](https://github.com/Keertilata20/Naruto-Desktop-Pet/actions/workflows/build.yml/badge.svg)](https://github.com/Keertilata20/Naruto-Desktop-Pet/actions/workflows/build.yml)
+[![License](https://img.shields.io/badge/license-MIT-2ea44f.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows-blue.svg)](#-run-it-locally)
+[![Phase](https://img.shields.io/badge/phase-1%20%7C%20desktop%20pet-orange.svg)](#-roadmap)
 
-## Our contribution
+Naruto Desktop Pet is a cute, lightweight Windows companion that lives above
+your applications, reacts to clicks and movement, and brings a little ninja
+energy to long coding sessions.
 
-- Pet-first startup without forced chat setup.
-- Replaceable, documented character-pack workflow.
-- Smoother animation timing with `requestAnimationFrame`.
-- Cached frame rendering to reduce visible lag.
-- Corrected spritesheet alignment and transparent rendering issues.
-- Click, hover, drag, jumping, waving, sleeping, and expression behavior.
+This project extends the open-source
+[TonyNa-code/desktop-pet](https://github.com/TonyNa-code/desktop-pet) foundation
+with a pet-first experience, smoother rendering, corrected animation behavior,
+and a roadmap toward a coding-aware companion.
 
-## Run locally
+## ✨ What is working
+
+- Transparent, always-on-top desktop pet window
+- Dragging with directional running animation
+- Click, double-click, hover, and long-press reactions
+- Idle, waving, jumping, sleeping, thinking, and mood states
+- Cached animation frames for smoother rendering
+- Replaceable character-pack format
+- Starts without requiring an API key
+
+## 🚀 Run it locally
 
 ```bash
 npm install
 npm start
 ```
 
-Validate the project with:
+Run the validation suite with:
 
 ```bash
 npm run check
 ```
 
-## Character packs
+## 🎨 Character packs
 
-Each pack lives under `assets/characters/<id>/` and contains:
+Every character is a replaceable pack under `assets/characters/<id>/`:
 
 ```text
-character.json
-preview.png
-sprite.png
+character.json   # states, rows, frame counts, and timing
+preview.png      # character picker preview
+sprite.png       # transparent spritesheet
 ```
 
-See [the character-pack guide](docs/NARUTO_CHARACTER_PACK.md) and the
+See the [character-pack guide](docs/NARUTO_CHARACTER_PACK.md) and
 [manifest template](docs/naruto-character-pack.template.json).
 
-The personal Naruto artwork used during development is intentionally excluded
-from this public repository. Users can add their own legally obtained artwork
-locally using the documented pack format.
+The personal Naruto artwork used during development is intentionally not
+included in this public repository. Add artwork locally only when you have the
+right to use and redistribute it.
 
-## Roadmap
+## 🗺️ Roadmap
 
-- Original publishable mascot
-- More moods and pet interactions
-- Coding-session awareness
-- VS Code reactions to successful runs and errors
-- Optional companion chat
+- Create an original publishable ninja mascot
+- Add richer moods and small speech reactions
+- Detect coding sessions and inactivity
+- Connect to VS Code events such as successful runs and errors
+- Bring back optional chat and voice as a later companion mode
 
-## Credit and license
+## 🤝 Credit
 
-The desktop-pet foundation is by
+The desktop-pet foundation comes from
 [TonyNa-code/desktop-pet](https://github.com/TonyNa-code/desktop-pet).
-This project preserves that foundation and adds the changes described above.
+This project keeps that attribution and builds a Naruto-inspired coding-
+companion experience on top of it.
 
-Source code is released under the MIT License. See [ASSET_NOTICE.md](ASSET_NOTICE.md)
-before redistributing artwork or packaged builds.
+Source code is released under the MIT License. See
+[ASSET_NOTICE.md](ASSET_NOTICE.md) before redistributing artwork or packaged
+builds.
+
+If you build your own character pack or improve the companion behavior, feel
+free to open an issue or pull request!
