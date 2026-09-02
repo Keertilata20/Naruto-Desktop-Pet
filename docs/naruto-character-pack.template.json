@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "naruto",
+  "name": "Naruto",
+  "description": "Local Naruto character pack. Artwork is user-provided.",
+  "sprite": "sprite.png",
+  "preview": "preview.png",
+  "frame": {
+    "width": 768,
+    "height": 832
+  },
+  "columns": 8,
+  "states": {
+    "idle": { "row": 0, "frames": 6, "interval": 900 },
+    "runningRight": { "row": 1, "frames": 8, "interval": 100 },
+    "runningLeft": { "row": 2, "frames": 8, "interval": 100 },
+    "waving": { "row": 3, "frames": 4, "interval": 160 },
+    "jumping": { "row": 4, "frames": 5, "interval": 140 },
+    "sleeping": { "row": 5, "frames": 4, "interval": 500 },
+    "failed": { "row": 6, "frames": 4, "interval": 220 },
+    "running": { "row": 7, "frames": 6, "interval": 100 },
+    "review": { "row": 8, "frames": 4, "interval": 500 }
+  },
+  "automaticActions": ["sleeping", "review", "waving", "jumping"],
+  "clickActions": ["waving", "review", "jumping", "failed"],
+  "staticExpressions": [
+    { "state": "idle", "frame": 0 },
+    { "state": "waving", "frame": 1 },
+    { "state": "sleeping", "frame": 0 },
+    { "state": "failed", "frame": 0 },
+    { "state": "review", "frame": 0 }
+  ]
+}

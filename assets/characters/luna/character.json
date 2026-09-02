@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "luna",
+  "name": "Luna",
+  "description": "A refined silver-haired young lady with elegant, slightly proud expressions.",
+  "sprite": "sprite.png",
+  "preview": "preview.png",
+  "frame": {
+    "width": 768,
+    "height": 832
+  },
+  "columns": 8,
+  "states": {
+    "idle": {
+      "row": 0,
+      "frames": 6,
+      "interval": 950
+    },
+    "runningRight": {
+      "row": 1,
+      "frames": 1,
+      "interval": 180
+    },
+    "runningLeft": {
+      "row": 2,
+      "frames": 1,
+      "interval": 180
+    },
+    "waving": {
+      "row": 3,
+      "frames": 2,
+      "interval": 360
+    },
+    "jumping": {
+      "row": 4,
+      "frames": 3,
+      "interval": 240
+    },
+    "failed": {
+      "row": 5,
+      "frames": 1,
+      "interval": 520
+    },
+    "waiting": {
+      "row": 0,
+      "frames": 6,
+      "interval": 620
+    },
+    "running": {
+      "row": 1,
+      "frames": 1,
+      "interval": 180
+    },
+    "review": {
+      "row": 6,
+      "frames": 1,
+      "interval": 540
+    },
+    "happy": {
+      "row": 7,
+      "frames": 1,
+      "interval": 520
+    },
+    "shy": {
+      "row": 8,
+      "frames": 1,
+      "interval": 560
+    },
+    "surprised": {
+      "row": 9,
+      "frames": 1,
+      "interval": 520
+    },
+    "tsundereProud": {
+      "row": 10,
+      "frames": 1,
+      "interval": 560
+    },
+    "tsundereAnnoyed": {
+      "row": 11,
+      "frames": 1,
+      "interval": 560
+    },
+    "tsundereEmbarrassed": {
+      "row": 12,
+      "frames": 1,
+      "interval": 560
+    }
+  },
+  "automaticActions": [
+    "waiting",
+    "tsundereProud",
+    "tsundereAnnoyed",
+    "tsundereEmbarrassed",
+    "review",
+    "waving",
+    "jumping"
+  ],
+  "clickActions": [
+    "tsundereProud",
+    "tsundereAnnoyed",
+    "tsundereEmbarrassed",
+    "failed",
+    "review",
+    "shy",
+    "surprised",
+    "happy",
+    "waving",
+    "jumping",
+    "waiting"
+  ],
+  "staticExpressions": [
+    {
+      "state": "idle",
+      "frame": 0
+    },
+    {
+      "state": "tsundereProud",
+      "frame": 0
+    },
+    {
+      "state": "tsundereAnnoyed",
+      "frame": 0
+    },
+    {
+      "state": "tsundereEmbarrassed",
+      "frame": 0
+    },
+    {
+      "state": "failed",
+      "frame": 0
+    },
+    {
+      "state": "review",
+      "frame": 0
+    },
+    {
+      "state": "shy",
+      "frame": 0
+    },
+    {
+      "state": "surprised",
+      "frame": 0
+    },
+    {
+      "state": "happy",
+      "frame": 0
+    },
+    {
+      "state": "waving",
+      "frame": 1
+    },
+    {
+      "state": "jumping",
+      "frame": 1
+    }
+  ]
+}
