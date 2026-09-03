@@ -5,6 +5,11 @@ const i18n = window.DesktopPetI18n;
 const CLICK_ONLY_COOLDOWN = 220;
 const LOCAL_REACTION_KEYS = {
   click: ["pet.reaction.click.1", "pet.reaction.click.2"],
+  waving: ["pet.reaction.waving"],
+  review: ["pet.reaction.review"],
+  jumping: ["pet.reaction.jumping"],
+  failed: ["pet.reaction.failed"],
+  embarrassed: ["pet.reaction.embarrassed"],
   doubleClick: ["pet.reaction.doubleClick"],
   longPress: ["pet.reaction.longPress"],
 };
@@ -279,21 +284,23 @@ function resetAfterSettingsChange() {
 
 function handleClick() {
   window.desktopPet.recordInteraction("click");
+  let nextState = "idle";
   if (settings.expressionMode === "clickOnly") {
-    const [nextState, nextFrame] = nextStaticExpression();
+    const [selectedState, nextFrame] = nextStaticExpression();
+    nextState = selectedState;
     setStaticExpression(nextState, nextFrame);
   } else {
-    const nextState = nextClickState();
+    nextState = nextClickState();
     playTemporary(nextState);
   }
-  showLocalReaction("click");
+  showLocalReaction(nextState);
 }
 
 function handleDoubleClick() {
   if (settings.expressionMode === "clickOnly") return;
   window.desktopPet.recordInteraction("doubleClick");
   playTemporary("jumping", 1200);
-  showLocalReaction("doubleClick");
+  showLocalReaction("jumping");
 }
 
 function handleLongPress() {
@@ -303,7 +310,7 @@ function handleLongPress() {
   } else {
     playTemporary("review", 1400);
   }
-  showLocalReaction("longPress");
+  showLocalReaction("review");
 }
 
 function handleClickOnlyPointerClick() {
@@ -382,7 +389,7 @@ function showBubble(text, duration = 2600) {
 }
 
 function showLocalReaction(kind) {
-  const keys = LOCAL_REACTION_KEYS[kind];
+  const keys = LOCAL_REACTION_KEYS[kind] || LOCAL_REACTION_KEYS.click;
   if (!keys?.length) return;
   const key = keys[Math.floor(Math.random() * keys.length)];
   showBubble(text(key), kind === "click" ? 1200 : 1500);
