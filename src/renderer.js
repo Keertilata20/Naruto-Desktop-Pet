@@ -12,6 +12,9 @@ const LOCAL_REACTION_KEYS = {
   embarrassed: ["pet.reaction.embarrassed"],
   doubleClick: ["pet.reaction.doubleClick"],
   longPress: ["pet.reaction.longPress"],
+  moodHappy: ["pet.reaction.mood.happy"],
+  moodTired: ["pet.reaction.mood.tired"],
+  moodAnnoyed: ["pet.reaction.mood.annoyed"],
 };
 
 const FALLBACK_CHARACTER = {
@@ -70,6 +73,7 @@ let hoverReadyAt = 0;
 let bubbleTimer;
 let didShowStartupGreeting = false;
 let activeLanguage = "zh-CN";
+let petProfile = { mood: "calm", energy: 100 };
 
 function text(key, variables = {}) {
   return i18n.t(key, variables, activeLanguage);
@@ -254,6 +258,10 @@ function applyAppState(nextAppState = {}) {
       pitch: Number(nextAppState.settings?.tts?.pitch) || 1,
     },
   };
+  petProfile = {
+    mood: typeof nextAppState.profile?.mood === "string" ? nextAppState.profile.mood : "calm",
+    energy: Number(nextAppState.profile?.energy) || 0,
+  };
   activeLanguage = settings.resolvedLanguage;
   document.documentElement.lang = activeLanguage;
   applyPetLayout();
@@ -389,7 +397,13 @@ function showBubble(text, duration = 2600) {
 }
 
 function showLocalReaction(kind) {
-  const keys = LOCAL_REACTION_KEYS[kind] || LOCAL_REACTION_KEYS.click;
+  let reactionKind = kind;
+  if (kind === "click") {
+    if (petProfile.mood === "annoyed") reactionKind = "moodAnnoyed";
+    else if (petProfile.mood === "tired") reactionKind = "moodTired";
+    else if (petProfile.mood === "happy") reactionKind = "moodHappy";
+  }
+  const keys = LOCAL_REACTION_KEYS[reactionKind] || LOCAL_REACTION_KEYS.click;
   if (!keys?.length) return;
   const key = keys[Math.floor(Math.random() * keys.length)];
   showBubble(text(key), kind === "click" ? 1200 : 1500);

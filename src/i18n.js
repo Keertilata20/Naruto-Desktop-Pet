@@ -72,6 +72,9 @@
       "pet.reaction.embarrassed": "嘿嘿……",
       "pet.reaction.doubleClick": "出发！",
       "pet.reaction.longPress": "训练中……",
+      "pet.reaction.mood.happy": "今天状态超好！",
+      "pet.reaction.mood.tired": "让我休息一下……",
+      "pet.reaction.mood.annoyed": "轻一点啦……",
 
       "chat.title": "伴侣对话",
       "chat.subtitle": "当前角色：{name}",
@@ -322,6 +325,9 @@
       "pet.reaction.embarrassed": "Hehe…",
       "pet.reaction.doubleClick": "Let’s go!",
       "pet.reaction.longPress": "Training mode…",
+      "pet.reaction.mood.happy": "Feeling great today!",
+      "pet.reaction.mood.tired": "Let me rest for a moment…",
+      "pet.reaction.mood.annoyed": "A little slower, please…",
 
       "chat.title": "Companion Chat",
       "chat.subtitle": "Current character: {name}",
@@ -572,6 +578,9 @@
       "pet.reaction.embarrassed": "えへへ……",
       "pet.reaction.doubleClick": "出発です！",
       "pet.reaction.longPress": "修行中です……",
+      "pet.reaction.mood.happy": "今日は絶好調です！",
+      "pet.reaction.mood.tired": "少し休ませてください……",
+      "pet.reaction.mood.annoyed": "もう少しゆっくりお願いします……",
 
       "chat.title": "コンパニオンチャット",
       "chat.subtitle": "現在のキャラクター：{name}",
