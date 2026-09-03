@@ -514,6 +514,8 @@ function createWindow() {
   });
 
   mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  // Keep the pet visible on the desktop while excluding it from screen captures.
+  mainWindow.setContentProtection(true);
   mainWindow.loadFile(path.join(__dirname, "index.html"));
   mainWindow.once("ready-to-show", () => mainWindow.showInactive());
 }
