@@ -3,6 +3,11 @@ const speechBubble = document.querySelector("#speech-bubble");
 const ctx = canvas.getContext("2d", { alpha: true });
 const i18n = window.DesktopPetI18n;
 const CLICK_ONLY_COOLDOWN = 220;
+const LOCAL_REACTION_KEYS = {
+  click: ["pet.reaction.click.1", "pet.reaction.click.2"],
+  doubleClick: ["pet.reaction.doubleClick"],
+  longPress: ["pet.reaction.longPress"],
+};
 
 const FALLBACK_CHARACTER = {
   id: "default",
@@ -281,12 +286,14 @@ function handleClick() {
     const nextState = nextClickState();
     playTemporary(nextState);
   }
+  showLocalReaction("click");
 }
 
 function handleDoubleClick() {
   if (settings.expressionMode === "clickOnly") return;
   window.desktopPet.recordInteraction("doubleClick");
   playTemporary("jumping", 1200);
+  showLocalReaction("doubleClick");
 }
 
 function handleLongPress() {
@@ -296,6 +303,7 @@ function handleLongPress() {
   } else {
     playTemporary("review", 1400);
   }
+  showLocalReaction("longPress");
 }
 
 function handleClickOnlyPointerClick() {
@@ -371,6 +379,13 @@ function showBubble(text, duration = 2600) {
   bubbleTimer = window.setTimeout(() => {
     speechBubble.classList.remove("visible");
   }, duration);
+}
+
+function showLocalReaction(kind) {
+  const keys = LOCAL_REACTION_KEYS[kind];
+  if (!keys?.length) return;
+  const key = keys[Math.floor(Math.random() * keys.length)];
+  showBubble(text(key), kind === "click" ? 1200 : 1500);
 }
 
 function chooseTtsVoice() {

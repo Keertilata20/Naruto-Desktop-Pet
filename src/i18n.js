@@ -63,6 +63,10 @@
       "pet.greeting.evening": "晚上好呀",
       "pet.greeting.night": "夜深啦，早点休息。",
       "pet.thinking": "我想一下。",
+      "pet.reaction.click.1": "准备好了！",
+      "pet.reaction.click.2": "继续加油！",
+      "pet.reaction.doubleClick": "出发！",
+      "pet.reaction.longPress": "训练中……",
 
       "chat.title": "伴侣对话",
       "chat.subtitle": "当前角色：{name}",
@@ -304,6 +308,10 @@
       "pet.greeting.evening": "Good evening.",
       "pet.greeting.night": "It is late. Get some rest soon.",
       "pet.thinking": "Let me think.",
+      "pet.reaction.click.1": "Ready!",
+      "pet.reaction.click.2": "Keep going!",
+      "pet.reaction.doubleClick": "Let’s go!",
+      "pet.reaction.longPress": "Training mode…",
 
       "chat.title": "Companion Chat",
       "chat.subtitle": "Current character: {name}",
@@ -545,6 +553,10 @@
       "pet.greeting.evening": "こんばんは。",
       "pet.greeting.night": "夜も遅いですね。そろそろ休みましょう。",
       "pet.thinking": "少し考えます。",
+      "pet.reaction.click.1": "準備できました！",
+      "pet.reaction.click.2": "この調子です！",
+      "pet.reaction.doubleClick": "出発です！",
+      "pet.reaction.longPress": "修行中です……",
 
       "chat.title": "コンパニオンチャット",
       "chat.subtitle": "現在のキャラクター：{name}",
