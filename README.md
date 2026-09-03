@@ -1,4 +1,4 @@
-# 🥷🍥 Naruto Desktop Pet
+# 🍥 Naruto Desktop Pet
 
 > A tiny ninja companion for your desktop—and eventually, your coding sessions.
 
