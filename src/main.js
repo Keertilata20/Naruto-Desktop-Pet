@@ -513,7 +513,6 @@ function createWindow() {
     },
   });
 
-  mainWindow.setAlwaysOnTop(settings.alwaysOnTop, "floating");
   mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   mainWindow.loadFile(path.join(__dirname, "index.html"));
   mainWindow.once("ready-to-show", () => mainWindow.showInactive());
@@ -653,7 +652,7 @@ function updateSettings(patch) {
   writeSettings();
   scheduleRestReminder();
   if (mainWindow) {
-    mainWindow.setAlwaysOnTop(settings.alwaysOnTop, "floating");
+    mainWindow.setAlwaysOnTop(settings.alwaysOnTop);
     applyWindowSize();
     mainWindow.webContents.send("app-state-updated", appState());
   }
