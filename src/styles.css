@@ -73,6 +73,18 @@ body {
   transform: none;
 }
 
+#speech-bubble::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  bottom: 2px;
+  width: 5px;
+  height: 5px;
+  border: 1px solid rgba(255, 163, 52, 0.5);
+  border-radius: 50%;
+  background: rgba(35, 29, 27, 0.94);
+}
+
 #speech-bubble.visible {
   opacity: 1;
   transform: translate(-50%, 0) scale(1);
