@@ -310,9 +310,15 @@ async function handleClick() {
   showLocalReaction(nextState);
 }
 
-function handleDoubleClick() {
+async function handleDoubleClick() {
   if (settings.expressionMode === "clickOnly") return;
-  window.desktopPet.recordInteraction("doubleClick");
+  const updatedAppState = await window.desktopPet.recordInteraction("doubleClick");
+  if (updatedAppState?.profile) {
+    petProfile = {
+      mood: typeof updatedAppState.profile.mood === "string" ? updatedAppState.profile.mood : "calm",
+      energy: Number(updatedAppState.profile.energy) || 0,
+    };
+  }
   playTemporary("jumping", 1200);
   showLocalReaction("jumping");
 }
@@ -404,7 +410,7 @@ function showBubble(text, duration = 2600) {
 
 function showLocalReaction(kind) {
   let reactionKind = kind;
-  if (kind === "click") {
+  if (kind === "click" || kind === "jumping") {
     if (petProfile.mood === "annoyed") reactionKind = "moodAnnoyed";
     else if (petProfile.mood === "tired") reactionKind = "moodTired";
     else if (petProfile.mood === "happy") reactionKind = "moodHappy";

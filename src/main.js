@@ -706,8 +706,8 @@ function updateMoodFromInteraction(kind) {
   profile.lastInteractionAt = now;
 
   if (kind === "doubleClick") {
-    profile.energy = clamp(profile.energy - 4, 0, 100);
-    profile.mood = profile.energy < 20 ? "tired" : "happy";
+    profile.energy = clamp(profile.energy - (rapid ? 7 : 4), 0, 100);
+    profile.mood = rapid ? "annoyed" : (profile.energy < 20 ? "tired" : "happy");
   } else if (kind === "chat") {
     profile.energy = clamp(profile.energy - 1, 0, 100);
     profile.mood = profile.energy < 20 ? "tired" : "happy";
