@@ -1537,7 +1537,10 @@ app.whenReady().then(() => {
   ipcMain.handle("clear-chat-history", clearChatHistory);
   ipcMain.handle("synthesize-speech", synthesizeSpeech);
   ipcMain.on("set-settings", (_event, patch) => updateSettings(patch));
-  ipcMain.on("record-interaction", (_event, kind) => updateMoodFromInteraction(kind));
+  ipcMain.handle("record-interaction", (_event, kind) => {
+    updateMoodFromInteraction(kind);
+    return appState();
+  });
   ipcMain.on("open-chat-window", createChatWindow);
   ipcMain.on("open-quick-chat-window", createQuickChatWindow);
   ipcMain.on("open-companion-settings", createCompanionSettingsWindow);

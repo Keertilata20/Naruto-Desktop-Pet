@@ -28,7 +28,7 @@ contextBridge.exposeInMainWorld("desktopPet", {
     ipcRenderer.on("pet-message", listener);
     return () => ipcRenderer.off("pet-message", listener);
   },
-  recordInteraction: (kind) => ipcRenderer.send("record-interaction", kind),
+  recordInteraction: (kind) => ipcRenderer.invoke("record-interaction", kind),
   showContextMenu: () => ipcRenderer.send("show-context-menu"),
   dragStart: () => ipcRenderer.send("drag-start"),
   dragMove: () => ipcRenderer.invoke("drag-move"),

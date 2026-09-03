@@ -290,8 +290,14 @@ function resetAfterSettingsChange() {
   scheduleStartupGreeting();
 }
 
-function handleClick() {
-  window.desktopPet.recordInteraction("click");
+async function handleClick() {
+  const updatedAppState = await window.desktopPet.recordInteraction("click");
+  if (updatedAppState?.profile) {
+    petProfile = {
+      mood: typeof updatedAppState.profile.mood === "string" ? updatedAppState.profile.mood : "calm",
+      energy: Number(updatedAppState.profile.energy) || 0,
+    };
+  }
   let nextState = "idle";
   if (settings.expressionMode === "clickOnly") {
     const [selectedState, nextFrame] = nextStaticExpression();
