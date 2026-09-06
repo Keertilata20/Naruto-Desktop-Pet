@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "demo-ninja",
+  "name": "Demo Ninja",
+  "description": "An original ninja mascot for demonstrating the desktop-pet engine.",
+  "sprite": "sprite.png",
+  "preview": "preview.png",
+  "frame": {
+    "width": 384,
+    "height": 416
+  },
+  "columns": 1,
+  "states": {
+    "idle": { "row": 0, "frames": 1, "interval": 900 },
+    "runningRight": { "row": 1, "frames": 1, "interval": 240 },
+    "runningLeft": { "row": 1, "frames": 1, "interval": 240 },
+    "waving": { "row": 2, "frames": 1, "interval": 700 },
+    "jumping": { "row": 3, "frames": 1, "interval": 300 },
+    "failed": { "row": 0, "frames": 1, "interval": 220 },
+    "sleeping": { "row": 4, "frames": 1, "interval": 700 },
+    "running": { "row": 1, "frames": 1, "interval": 100 },
+    "review": { "row": 0, "frames": 1, "interval": 500 }
+  },
+  "automaticActions": ["sleeping", "review", "waving"],
+  "clickActions": ["waving", "review", "jumping"],
+  "staticExpressions": [
+    { "state": "idle", "frame": 0 },
+    { "state": "waving", "frame": 0 },
+    { "state": "sleeping", "frame": 0 },
+    { "state": "jumping", "frame": 0 }
+  ]
+}

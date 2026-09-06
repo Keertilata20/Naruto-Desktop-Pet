@@ -16,7 +16,7 @@ const BASE_SIZE = { width: 192, height: 208 };
 const BUBBLE_HEIGHT = 132;
 const MIN_BUBBLE_WIDTH = 320;
 // The public build uses the bundled sample character. Personal packs can override it locally.
-const DEFAULT_CHARACTER_ID = "default";
+const DEFAULT_CHARACTER_ID = "demo-ninja";
 const CHARACTERS_DIR = path.join(__dirname, "..", "assets", "characters");
 const SIZE_PRESETS = [0.75, 1, 1.25, 1.5, 1.75, 2];
 const MINUTE_MS = 60 * 1000;

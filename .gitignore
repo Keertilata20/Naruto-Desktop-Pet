@@ -1,5 +1,6 @@
 node_modules/
 local-private-assets/
+# Personal Naruto artwork stays local and is never published.
 assets/characters/naruto/
 dist/
 out/

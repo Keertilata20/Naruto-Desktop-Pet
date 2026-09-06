@@ -1,14 +1,27 @@
 # Asset Notice
 
-This repository is set up as an open-source desktop-pet application template.
+This public repository includes an original `demo-ninja` mascot so the
+application can be cloned and run without distributing third-party character
+artwork.
 
-The included default spritesheet is a character desktop pet asset created for
-this project workflow. Before distributing packaged builds publicly, please make
-sure you have the right to publish the character artwork in your target context.
+The desktop-pet application source is based on the original
+[TonyNa-code/desktop-pet](https://github.com/TonyNa-code/desktop-pet) project
+and is licensed under the MIT License. Please preserve that attribution when
+sharing or extending the code.
 
-The application icon under `build/` is original mascot artwork created for this
-template.
+The Naruto character pack is a local, unofficial fan-project asset used during
+development. It is intentionally excluded from this public repository and is
+not affiliated with, sponsored by, or endorsed by Naruto’s rights holders.
+Do not add Naruto artwork or other copyrighted character assets to the public
+repository unless you have the necessary rights and permissions.
 
-The application source code is licensed under the MIT License. Artwork licensing
-can be replaced by adding or replacing character packs under `assets/characters/`.
-Each character pack should include `character.json`, `sprite.png`, and `preview.png`.
+Character packs are replaceable folders containing:
+
+```text
+character.json
+sprite.png
+preview.png
+```
+
+Before redistributing any custom pack or packaged application, verify the
+artwork license separately from the source-code license.

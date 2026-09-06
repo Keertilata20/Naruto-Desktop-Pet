@@ -1,30 +1,32 @@
-# 🍥 Naruto Desktop Pet
+# 🥷 Demo Ninja Desktop Pet
 
-> A tiny ninja companion for your desktop—and eventually, your coding sessions.
+> A tiny, original ninja companion for your desktop and coding sessions.
 
 [![Build](https://github.com/Keertilata20/Naruto-Desktop-Pet/actions/workflows/build.yml/badge.svg)](https://github.com/Keertilata20/Naruto-Desktop-Pet/actions/workflows/build.yml)
 [![License](https://img.shields.io/badge/license-MIT-2ea44f.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-blue.svg)](#-run-it-locally)
-[![Phase](https://img.shields.io/badge/phase-1%20%7C%20desktop%20pet-orange.svg)](#-roadmap)
+[![Character packs](https://img.shields.io/badge/character%20packs-replaceable-0f766e.svg)](#-character-packs)
 
-Naruto Desktop Pet is a cute, lightweight Windows companion that lives above
-your applications, reacts to clicks and movement, and brings a little ninja
-energy to long coding sessions.
+Demo Ninja is a lightweight Electron desktop pet that stays above your other
+windows, reacts to interaction, and demonstrates a replaceable character-pack
+system. The public repository includes an original demo mascot so anyone can
+clone it and run it without downloading proprietary artwork.
 
-This project extends the open-source
-[TonyNa-code/desktop-pet](https://github.com/TonyNa-code/desktop-pet) foundation
-with a pet-first experience, smoother rendering, corrected animation behavior,
-and a roadmap toward a coding-aware companion.
+This project is based on the open-source
+[TonyNa-code/desktop-pet](https://github.com/TonyNa-code/desktop-pet) foundation.
+It keeps the original architecture while adding smoother animation playback,
+local reactions, screenshot privacy, and a path toward coding awareness.
 
-## ✨ What is working
+## ✨ What is included
 
 - Transparent, always-on-top desktop pet window
-- Dragging with directional running animation
+- Dragging with directional movement
+- Idle, walking, waving, jumping, and sleeping demonstrations
 - Click, double-click, hover, and long-press reactions
-- Idle, waving, jumping, sleeping, thinking, and mood states
 - Cached animation frames for smoother rendering
 - Replaceable character-pack format
-- Starts without requiring an API key
+- Original `demo-ninja` mascot included
+- Runs without an API key
 
 ## 🚀 Run it locally
 
@@ -41,7 +43,7 @@ npm run check
 
 ## 🎨 Character packs
 
-Every character is a replaceable pack under `assets/characters/<id>/`:
+Every character is discovered from a folder under `assets/characters/<id>/`:
 
 ```text
 character.json   # states, rows, frame counts, and timing
@@ -49,31 +51,45 @@ preview.png      # character picker preview
 sprite.png       # transparent spritesheet
 ```
 
-See the [character-pack guide](docs/NARUTO_CHARACTER_PACK.md) and
-[manifest template](docs/naruto-character-pack.template.json).
+The included public pack is:
 
-The personal Naruto artwork used during development is intentionally not
-included in this public repository. Add artwork locally only when you have the
-right to use and redistribute it.
+```text
+assets/characters/demo-ninja/
+```
 
-## 🗺️ Roadmap
+Create your own pack by following the project’s character-pack guide and
+keeping the artwork rights clear before redistributing it.
 
-- Create an original publishable ninja mascot
-- Add richer moods and small speech reactions
-- Detect coding sessions and inactivity
-- Connect to VS Code events such as successful runs and errors
-- Bring back optional chat and voice as a later companion mode
+## 🔒 Naruto development pack
+
+The Naruto character pack is used locally while developing this project, but
+it is intentionally excluded from the public repository. Naruto is an
+unofficial personal fan-project character and this project is not affiliated
+with Naruto’s rights holders.
+
+The local pack is ignored by Git at:
+
+```text
+assets/characters/naruto/
+```
+
+The application remains generic: if a user provides a valid local character
+pack, the same discovery and animation system can load it without Naruto-
+specific engine code.
 
 ## 🤝 Credit
 
 The desktop-pet foundation comes from
-[TonyNa-code/desktop-pet](https://github.com/TonyNa-code/desktop-pet).
-This project keeps that attribution and builds a Naruto-inspired coding-
-companion experience on top of it.
+[TonyNa-code/desktop-pet](https://github.com/TonyNa-code/desktop-pet). Please
+review its license and asset notice when building on this project.
 
-Source code is released under the MIT License. See
-[ASSET_NOTICE.md](ASSET_NOTICE.md) before redistributing artwork or packaged
-builds.
+The public source code and original demo mascot are provided for learning and
+experimentation. See [ASSET_NOTICE.md](ASSET_NOTICE.md) before redistributing
+artwork or packaged builds.
 
-If you build your own character pack or improve the companion behavior, feel
-free to open an issue or pull request!
+## 🗺️ Roadmap
+
+- Add richer moods and small speech reactions
+- Detect coding sessions and inactivity
+- Connect to VS Code events such as successful runs and errors
+- Add optional chat and voice as a later companion mode
