@@ -82,7 +82,13 @@ const DEFAULT_PROFILE = {
   totalInteractions: 0,
   lastInteractionAt: 0,
   lastLaunchDate: "",
+  sessionStartedAt: 0,
+  lastActivityAt: 0,
+  activeSessionMs: 0,
+  sessionInteractions: 0,
+  lastActivityKind: "",
 };
+const ACTIVITY_GAP_MS = 5 * MINUTE_MS;
 
 let mainWindow;
 let chatWindow;
@@ -465,6 +471,11 @@ function normalizeProfile(nextProfile) {
     totalInteractions: Math.max(0, Number(nextProfile.totalInteractions) || 0),
     lastInteractionAt: Math.max(0, Number(nextProfile.lastInteractionAt) || 0),
     lastLaunchDate: typeof nextProfile.lastLaunchDate === "string" ? nextProfile.lastLaunchDate : "",
+    sessionStartedAt: Math.max(0, Number(nextProfile.sessionStartedAt) || 0),
+    lastActivityAt: Math.max(0, Number(nextProfile.lastActivityAt) || 0),
+    activeSessionMs: Math.max(0, Number(nextProfile.activeSessionMs) || 0),
+    sessionInteractions: Math.max(0, Number(nextProfile.sessionInteractions) || 0),
+    lastActivityKind: typeof nextProfile.lastActivityKind === "string" ? nextProfile.lastActivityKind : "",
   };
 }
 
@@ -735,6 +746,7 @@ function moodText() {
 
 function updateMoodFromInteraction(kind) {
   const now = Date.now();
+  recordActivity(kind, now);
   const rapid = now - profile.lastInteractionAt < 700;
   const affection = settings.affection || DEFAULT_SETTINGS.affection;
   profile.totalInteractions += 1;
@@ -761,6 +773,32 @@ function updateMoodFromInteraction(kind) {
   if (mainWindow) {
     mainWindow.webContents.send("app-state-updated", appState());
   }
+}
+
+function recordActivity(kind, now = Date.now()) {
+  if (!profile.sessionStartedAt) profile.sessionStartedAt = now;
+  const previous = profile.lastActivityAt || 0;
+  if (previous && now > previous && now - previous <= ACTIVITY_GAP_MS) {
+    profile.activeSessionMs += now - previous;
+  }
+  profile.lastActivityAt = now;
+  profile.sessionInteractions += 1;
+  profile.lastActivityKind = typeof kind === "string" ? kind : "interaction";
+}
+
+function currentActivityMs(now = Date.now()) {
+  const previous = profile.lastActivityAt || 0;
+  if (!previous || now - previous > ACTIVITY_GAP_MS) return profile.activeSessionMs;
+  return profile.activeSessionMs + Math.max(0, now - previous);
+}
+
+function showActivitySummary() {
+  const minutes = Math.floor(currentActivityMs() / MINUTE_MS);
+  notify(
+    t("notify.activityTitle"),
+    t("notify.activityBody", { minutes, interactions: profile.sessionInteractions }),
+    "review",
+  );
 }
 
 function recordChatTimeProgress(now = Date.now()) {
@@ -1482,6 +1520,7 @@ function showContextMenu() {
       submenu: [
         { label: t("menu.showCurrentTime"), click: showCurrentTime },
         { label: t("menu.startFocus"), click: startFocusTimer },
+        { label: t("menu.showActivity"), click: showActivitySummary },
         {
           label: t("menu.restReminder"),
           submenu: restReminderItems,
