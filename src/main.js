@@ -235,6 +235,9 @@ function readSettings() {
       ...(parsed.tts || {}),
       apiKey: readStoredApiKey(parsed.tts || {}),
     };
+    if (DEFAULT_CHARACTER_ID === "naruto" && parsed.characterId === "default" && getCharacterPack("naruto")) {
+      parsed.characterId = DEFAULT_CHARACTER_ID;
+    }
     settings = normalizeSettings(parsed);
   } catch {
     settings = normalizeSettings(DEFAULT_SETTINGS);

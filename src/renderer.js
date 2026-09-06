@@ -74,6 +74,8 @@ let bubbleTimer;
 let didShowStartupGreeting = false;
 let activeLanguage = "zh-CN";
 let petProfile = { mood: "calm", energy: 100 };
+let spriteLoadPromise;
+let spriteLoadPath = "";
 
 function text(key, variables = {}) {
   return i18n.t(key, variables, activeLanguage);
@@ -489,15 +491,32 @@ function scheduleStartupGreeting() {
 }
 
 function loadSprite() {
-  return new Promise((resolve, reject) => {
+  const spritePath = character.spritePath;
+  if (spriteImage && spriteLoadPath === spritePath) return Promise.resolve();
+  if (spriteLoadPromise && spriteLoadPath === spritePath) return spriteLoadPromise;
+
+  spriteLoadPath = spritePath;
+  const promise = new Promise((resolve, reject) => {
     const nextImage = new Image();
     nextImage.addEventListener("load", () => {
-      spriteImage = nextImage;
+      if (character.spritePath === spritePath) {
+        spriteImage = nextImage;
+      }
       resolve();
     }, { once: true });
     nextImage.addEventListener("error", reject, { once: true });
-    nextImage.src = character.spritePath;
+    nextImage.src = spritePath;
   });
+  spriteLoadPromise = promise;
+  promise.then(
+    () => {
+      if (spriteLoadPromise === promise) spriteLoadPromise = null;
+    },
+    () => {
+      if (spriteLoadPromise === promise) spriteLoadPromise = null;
+    },
+  );
+  return promise;
 }
 
 canvas.addEventListener("pointerdown", beginDrag);
