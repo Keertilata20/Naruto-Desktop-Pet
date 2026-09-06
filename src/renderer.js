@@ -321,6 +321,11 @@ async function handleDoubleClick() {
   }
   playTemporary("jumping", 1200);
   showLocalReaction("jumping");
+  if (petProfile.mood === "annoyed") {
+    window.setTimeout(() => {
+      showBubble(text("pet.reaction.mood.annoyed"), 1300);
+    }, 1250);
+  }
 }
 
 function handleLongPress() {
@@ -410,7 +415,7 @@ function showBubble(text, duration = 2600) {
 
 function showLocalReaction(kind) {
   let reactionKind = kind;
-  if (kind === "click" || kind === "jumping") {
+  if (kind === "click") {
     if (petProfile.mood === "annoyed") reactionKind = "moodAnnoyed";
     else if (petProfile.mood === "tired") reactionKind = "moodTired";
     else if (petProfile.mood === "happy") reactionKind = "moodHappy";
