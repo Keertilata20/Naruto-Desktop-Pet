@@ -321,11 +321,6 @@ async function handleDoubleClick() {
   }
   playTemporary("jumping", 1200);
   showLocalReaction("jumping");
-  if (petProfile.mood === "annoyed") {
-    window.setTimeout(() => {
-      showBubble(text("pet.reaction.mood.annoyed"), 1300);
-    }, 1250);
-  }
 }
 
 function handleLongPress() {
