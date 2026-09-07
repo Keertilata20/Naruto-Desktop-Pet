@@ -26,6 +26,7 @@ const DEFAULT_SETTINGS = {
   expressionMode: "automatic",
   scale: 1,
   alwaysOnTop: true,
+  hideFromCapture: true,
   restReminderMinutes: 0,
   assistant: {
     baseUrl: "",
@@ -296,6 +297,7 @@ function normalizeSettings(nextSettings) {
   const expressionMode = nextSettings.expressionMode === "clickOnly" ? "clickOnly" : "automatic";
   const scale = nearestScale(Number(nextSettings.scale) || 1);
   const alwaysOnTop = nextSettings.alwaysOnTop !== false;
+  const hideFromCapture = nextSettings.hideFromCapture !== false;
   const restReminderMinutes = [0, 30, 60].includes(Number(nextSettings.restReminderMinutes))
     ? Number(nextSettings.restReminderMinutes)
     : 0;
@@ -305,6 +307,7 @@ function normalizeSettings(nextSettings) {
     expressionMode,
     scale,
     alwaysOnTop,
+    hideFromCapture,
     restReminderMinutes,
     assistant,
     tts,
@@ -514,8 +517,8 @@ function createWindow() {
   });
 
   mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-  // Keep the pet visible on the desktop while excluding it from screen captures.
-  mainWindow.setContentProtection(true);
+  // Keep the pet visible on the desktop while optionally excluding it from captures.
+  mainWindow.setContentProtection(settings.hideFromCapture);
   mainWindow.loadFile(path.join(__dirname, "index.html"));
   mainWindow.once("ready-to-show", () => mainWindow.showInactive());
 }
@@ -655,6 +658,7 @@ function updateSettings(patch) {
   scheduleRestReminder();
   if (mainWindow) {
     mainWindow.setAlwaysOnTop(settings.alwaysOnTop);
+    mainWindow.setContentProtection(settings.hideFromCapture);
     applyWindowSize();
     mainWindow.webContents.send("app-state-updated", appState());
   }
@@ -684,14 +688,21 @@ function todayKey() {
 }
 
 function recordLaunch() {
+  // Activity summaries describe the current app launch, not a value carried over
+  // from an earlier run. Lifetime totals remain stored separately.
+  profile.sessionStartedAt = 0;
+  profile.lastActivityAt = 0;
+  profile.activeSessionMs = 0;
+  profile.sessionInteractions = 0;
+  profile.lastActivityKind = "";
   const today = todayKey();
   const affection = settings.affection || DEFAULT_SETTINGS.affection;
   if (profile.lastLaunchDate !== today) {
     profile.energy = clamp(profile.energy + 15, 0, 100);
     profile.mood = affection.enabled && profile.affection >= affection.happyThreshold ? "happy" : "calm";
     profile.lastLaunchDate = today;
-    writeProfile();
   }
+  writeProfile();
 }
 
 function moodText() {
@@ -1435,6 +1446,12 @@ function showContextMenu() {
       type: "checkbox",
       checked: settings.alwaysOnTop,
       click: (item) => updateSettings({ alwaysOnTop: item.checked }),
+    },
+    {
+      label: t("menu.hideFromCapture"),
+      type: "checkbox",
+      checked: settings.hideFromCapture,
+      click: (item) => updateSettings({ hideFromCapture: item.checked }),
     },
     {
       label: t("menu.utility"),
