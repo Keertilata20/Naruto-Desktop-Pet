@@ -500,6 +500,12 @@ function schedulePetVisibilityRestore() {
   // the pet after the capture tool releases it without stealing focus.
   setTimeout(restorePetVisibility, 120);
   setTimeout(restorePetVisibility, 600);
+  setTimeout(restorePetVisibility, 1500);
+}
+
+function applyCaptureProtection() {
+  if (!mainWindow || mainWindow.isDestroyed()) return;
+  mainWindow.setContentProtection(settings.hideFromCapture);
 }
 
 function createWindow() {
@@ -531,10 +537,14 @@ function createWindow() {
 
   mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   // Keep the pet visible on the desktop while optionally excluding it from captures.
-  mainWindow.setContentProtection(settings.hideFromCapture);
+  applyCaptureProtection();
   mainWindow.on("hide", schedulePetVisibilityRestore);
+  mainWindow.on("show", applyCaptureProtection);
   mainWindow.loadFile(path.join(__dirname, "index.html"));
-  mainWindow.once("ready-to-show", () => mainWindow.showInactive());
+  mainWindow.once("ready-to-show", () => {
+    applyCaptureProtection();
+    mainWindow.showInactive();
+  });
 }
 
 function createChatWindow() {
@@ -672,7 +682,7 @@ function updateSettings(patch) {
   scheduleRestReminder();
   if (mainWindow) {
     mainWindow.setAlwaysOnTop(settings.alwaysOnTop);
-    mainWindow.setContentProtection(settings.hideFromCapture);
+    applyCaptureProtection();
     applyWindowSize();
     mainWindow.webContents.send("app-state-updated", appState());
   }
