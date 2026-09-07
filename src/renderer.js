@@ -519,6 +519,13 @@ function loadSprite() {
   return promise;
 }
 
+// Windows capture tools can temporarily discard the pixels of transparent
+// canvases without destroying the Electron window. Repaint the cached frame
+// so one-frame packs such as demo-ninja recover as reliably as larger packs.
+window.setInterval(() => {
+  if (spriteImage) draw();
+}, 500);
+
 canvas.addEventListener("pointerdown", beginDrag);
 canvas.addEventListener("dblclick", handleDoubleClick);
 canvas.addEventListener("pointerenter", () => {
