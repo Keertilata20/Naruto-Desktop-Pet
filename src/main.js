@@ -94,6 +94,7 @@ let dragSnapshot = null;
 let restReminderTimer = null;
 let focusTimer = null;
 let chatHistory = [];
+let isQuitting = false;
 
 function isSafeAssetName(value) {
   return (
@@ -489,6 +490,18 @@ function applyWindowSize(keepCenter = true) {
   mainWindow.setBounds({ x, y, ...nextSize }, true);
 }
 
+function restorePetVisibility() {
+  if (isQuitting || !mainWindow || mainWindow.isDestroyed() || mainWindow.isVisible()) return;
+  mainWindow.showInactive();
+}
+
+function schedulePetVisibilityRestore() {
+  // Some Windows capture tools temporarily hide transparent overlays. Restore
+  // the pet after the capture tool releases it without stealing focus.
+  setTimeout(restorePetVisibility, 120);
+  setTimeout(restorePetVisibility, 600);
+}
+
 function createWindow() {
   readSettings();
   readProfile();
@@ -519,6 +532,7 @@ function createWindow() {
   mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   // Keep the pet visible on the desktop while optionally excluding it from captures.
   mainWindow.setContentProtection(settings.hideFromCapture);
+  mainWindow.on("hide", schedulePetVisibilityRestore);
   mainWindow.loadFile(path.join(__dirname, "index.html"));
   mainWindow.once("ready-to-show", () => mainWindow.showInactive());
 }
@@ -1580,6 +1594,10 @@ app.whenReady().then(() => {
 
   scheduleRestReminder();
   // The pet should start without requiring chat/API setup. Chat remains available from the menu.
+});
+
+app.on("before-quit", () => {
+  isQuitting = true;
 });
 
 app.on("window-all-closed", () => app.quit());
