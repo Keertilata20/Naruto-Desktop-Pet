@@ -9,6 +9,7 @@ const {
   safeStorage,
 } = require("electron");
 const fs = require("node:fs");
+const http = require("node:http");
 const path = require("node:path");
 const i18n = require("./i18n");
 
@@ -20,6 +21,7 @@ const DEFAULT_CHARACTER_ID = "demo-ninja";
 const CHARACTERS_DIR = path.join(__dirname, "..", "assets", "characters");
 const SIZE_PRESETS = [0.75, 1, 1.25, 1.5, 1.75, 2];
 const MINUTE_MS = 60 * 1000;
+const VS_CODE_BRIDGE_PORT = 32123;
 const DEFAULT_SETTINGS = {
   language: "system",
   characterId: DEFAULT_CHARACTER_ID,
@@ -102,6 +104,7 @@ let focusTimer = null;
 let chatHistory = [];
 let isQuitting = false;
 let captureRecoveryTimer = null;
+let vscodeBridgeServer = null;
 
 function isSafeAssetName(value) {
   return (
@@ -856,6 +859,88 @@ function notify(title, body, action) {
   sendPetMessage(body || title, action);
   if (!Notification.isSupported()) return;
   new Notification({ title, body, silent: true }).show();
+}
+
+function vscodeReaction(eventName) {
+  const reactions = {
+    runSuccess: { action: "jumping", message: t("pet.vscode.runSuccess") },
+    taskSuccess: { action: "jumping", message: t("pet.vscode.taskSuccess") },
+    buildSuccess: { action: "jumping", message: t("pet.vscode.buildSuccess") },
+    runError: { action: "failed", message: t("pet.vscode.runError") },
+    taskError: { action: "failed", message: t("pet.vscode.taskError") },
+    buildError: { action: "failed", message: t("pet.vscode.buildError") },
+    debugStart: { action: "review", message: t("pet.vscode.debugStart") },
+    fileSaved: { action: "waving", message: t("pet.vscode.fileSaved") },
+    codingPulse: { action: "review", message: t("pet.vscode.codingPulse") },
+  };
+  return reactions[eventName] || null;
+}
+
+function handleVscodeEvent(payload = {}) {
+  const eventName = typeof payload.event === "string" ? payload.event.trim() : "";
+  const reaction = vscodeReaction(eventName);
+  if (!reaction) return { ok: false, error: "unsupported_event" };
+
+  const action = pickAvailableAction([reaction.action, "waving", "idle"]);
+  recordActivity(`vscode:${eventName}`);
+  writeProfile();
+  sendPetMessage(reaction.message, action, { speak: false });
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.webContents.send("app-state-updated", appState());
+  }
+  return { ok: true, event: eventName, action };
+}
+
+function startVscodeBridge() {
+  vscodeBridgeServer = http.createServer((request, response) => {
+    if (request.method === "OPTIONS") {
+      response.writeHead(204, {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+      });
+      response.end();
+      return;
+    }
+    if (request.method !== "POST" || request.url !== "/event") {
+      response.writeHead(404, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ ok: false, error: "not_found" }));
+      return;
+    }
+
+    let body = "";
+    request.setEncoding("utf8");
+    request.on("data", (chunk) => {
+      body += chunk;
+      if (body.length > 16000) request.destroy();
+    });
+    request.on("end", () => {
+      let payload;
+      try {
+        payload = JSON.parse(body);
+      } catch {
+        response.writeHead(400, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ ok: false, error: "invalid_json" }));
+        return;
+      }
+      const result = handleVscodeEvent(payload);
+      response.writeHead(result.ok ? 200 : 400, {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      });
+      response.end(JSON.stringify(result));
+    });
+  });
+  vscodeBridgeServer.on("error", (error) => {
+    console.warn(`VS Code bridge unavailable on port ${VS_CODE_BRIDGE_PORT}: ${error.message}`);
+    vscodeBridgeServer = null;
+  });
+  vscodeBridgeServer.listen(VS_CODE_BRIDGE_PORT, "127.0.0.1");
+}
+
+function stopVscodeBridge() {
+  if (!vscodeBridgeServer) return;
+  vscodeBridgeServer.close();
+  vscodeBridgeServer = null;
 }
 
 function publicChatConfig() {
@@ -1625,6 +1710,7 @@ function setApplicationMenu() {
 app.whenReady().then(() => {
   app.setName(t("app.name"));
   createWindow();
+  startVscodeBridge();
 
   ipcMain.handle("get-app-state", () => appState());
   ipcMain.handle("get-chat-state", () => chatState());
@@ -1667,6 +1753,7 @@ app.on("before-quit", () => {
   isQuitting = true;
   clearInterval(captureRecoveryTimer);
   captureRecoveryTimer = null;
+  stopVscodeBridge();
 });
 
 app.on("window-all-closed", () => app.quit());

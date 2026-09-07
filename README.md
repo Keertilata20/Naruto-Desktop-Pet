@@ -26,6 +26,7 @@ local reactions, screenshot privacy, and a path toward coding awareness.
 - Cached animation frames for smoother rendering
 - Replaceable character-pack format
 - Original `demo-ninja` mascot included
+- Optional local VS Code coding-event bridge
 - Runs without an API key
 
 ## 🚀 Run it locally
@@ -40,6 +41,24 @@ Run the validation suite with:
 ```bash
 npm run check
 ```
+
+## 🧑‍💻 VS Code integration
+
+The optional extension in `vscode-extension/` sends local coding events to the
+running pet over `127.0.0.1:32123`. No source code or event data is sent to a
+cloud service.
+
+1. Open the Command Palette in VS Code.
+2. Choose `Extensions: Install from VSIX...` after packaging the extension, or
+   use `Developer: Install Extension from Location...` and select
+   `vscode-extension/` during development.
+3. Start the desktop pet with `npm start`.
+4. Run a VS Code task, or use the commands beginning with `Desktop Pet:`.
+
+The extension supports successful and failed tasks, debug-start commands,
+optional file-save reactions, and coding pulses. Configure it under the
+`desktopPet.*` settings in VS Code. Naruto and Demo Ninja consume the same
+events and select only animations that exist in their active character pack.
 
 ## 🎨 Character packs
 

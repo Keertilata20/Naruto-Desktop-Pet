@@ -1,0 +1,51 @@
+{
+  "name": "desktop-pet-coding-companion",
+  "displayName": "Desktop Pet Coding Companion",
+  "description": "Send VS Code coding events to the local Desktop Pet.",
+  "version": "0.1.0",
+  "publisher": "desktop-pet-local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "desktopPet.sendSuccess",
+        "title": "Desktop Pet: Send Success Event"
+      },
+      {
+        "command": "desktopPet.sendError",
+        "title": "Desktop Pet: Send Error Event"
+      },
+      {
+        "command": "desktopPet.sendDebugStart",
+        "title": "Desktop Pet: Send Debug Started Event"
+      }
+    ],
+    "configuration": {
+      "title": "Desktop Pet",
+      "properties": {
+        "desktopPet.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Send coding events to the local Desktop Pet."
+        },
+        "desktopPet.endpoint": {
+          "type": "string",
+          "default": "http://127.0.0.1:32123/event",
+          "description": "Local Desktop Pet event endpoint."
+        },
+        "desktopPet.notifyOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show a pet reaction after every saved file."
+        }
+      }
+    }
+  }
+}
