@@ -507,6 +507,7 @@ function applyWindowSize(keepCenter = true) {
 
 function restorePetVisibility() {
   if (isQuitting || !mainWindow || mainWindow.isDestroyed() || mainWindow.isVisible()) return;
+  applyCaptureProtection();
   mainWindow.showInactive();
 }
 
@@ -532,7 +533,6 @@ function startCaptureRecoveryWatchdog() {
       return;
     }
     restorePetVisibility();
-    applyCaptureProtection();
   }, 1500);
 }
 
