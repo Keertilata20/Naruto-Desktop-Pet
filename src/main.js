@@ -101,6 +101,7 @@ let restReminderTimer = null;
 let focusTimer = null;
 let chatHistory = [];
 let isQuitting = false;
+let captureRecoveryTimer = null;
 
 function isSafeAssetName(value) {
   return (
@@ -522,6 +523,19 @@ function applyCaptureProtection() {
   mainWindow.setContentProtection(settings.hideFromCapture);
 }
 
+function startCaptureRecoveryWatchdog() {
+  clearInterval(captureRecoveryTimer);
+  captureRecoveryTimer = setInterval(() => {
+    if (isQuitting || !mainWindow || mainWindow.isDestroyed()) {
+      clearInterval(captureRecoveryTimer);
+      captureRecoveryTimer = null;
+      return;
+    }
+    restorePetVisibility();
+    applyCaptureProtection();
+  }, 1500);
+}
+
 function createWindow() {
   readSettings();
   readProfile();
@@ -558,6 +572,7 @@ function createWindow() {
   mainWindow.once("ready-to-show", () => {
     applyCaptureProtection();
     mainWindow.showInactive();
+    startCaptureRecoveryWatchdog();
   });
 }
 
@@ -1650,6 +1665,8 @@ app.whenReady().then(() => {
 
 app.on("before-quit", () => {
   isQuitting = true;
+  clearInterval(captureRecoveryTimer);
+  captureRecoveryTimer = null;
 });
 
 app.on("window-all-closed", () => app.quit());
