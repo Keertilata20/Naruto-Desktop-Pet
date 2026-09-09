@@ -5,6 +5,10 @@
   "version": "0.1.0",
   "publisher": "desktop-pet-local",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Keertilata20/Naruto-Desktop-Pet.git"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },

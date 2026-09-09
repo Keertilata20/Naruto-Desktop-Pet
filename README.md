@@ -48,10 +48,18 @@ The optional extension in `vscode-extension/` sends local coding events to the
 running pet over `127.0.0.1:32123`. No source code or event data is sent to a
 cloud service.
 
+Build the installable extension package from the project root:
+
+```bash
+npm run package:vscode
+```
+
+This creates `vscode-extension/desktop-pet-coding-companion.vsix`.
+
 1. Open the Command Palette in VS Code.
-2. Choose `Extensions: Install from VSIX...` after packaging the extension, or
-   use `Developer: Install Extension from Location...` and select
-   `vscode-extension/` during development.
+2. Choose `Extensions: Install from VSIX...` and select the generated `.vsix`
+   file. For development, use `Developer: Install Extension from Location...`
+   and select `vscode-extension/`.
 3. Start the desktop pet with `npm start`.
 4. Run a VS Code task, or use the commands beginning with `Desktop Pet:`.
 

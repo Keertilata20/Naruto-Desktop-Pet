@@ -20,6 +20,7 @@
     "check": "node --check src/main.js && node --check src/i18n.js && node --check src/preload.js && node --check src/renderer.js && node --check src/chat.js && node --check src/quick-chat.js && node --check src/settings.js && node scripts/validate-assets.js && node scripts/privacy-check.js",
     "privacy:check": "node scripts/privacy-check.js",
     "validate:assets": "node scripts/validate-assets.js",
+    "package:vscode": "node scripts/package-vscode.js",
     "build": "electron-builder"
   },
   "keywords": [
