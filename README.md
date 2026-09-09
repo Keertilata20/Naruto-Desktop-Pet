@@ -63,10 +63,12 @@ This creates `vscode-extension/desktop-pet-coding-companion.vsix`.
 3. Start the desktop pet with `npm start`.
 4. Run a VS Code task, or use the commands beginning with `Desktop Pet:`.
 
-The extension supports successful and failed tasks, debug-start commands,
-optional file-save reactions, and coding pulses. Configure it under the
-`desktopPet.*` settings in VS Code. Naruto and Demo Ninja consume the same
-events and select only animations that exist in their active character pack.
+The extension supports successful and failed tasks, integrated-terminal
+commands, debug sessions, optional file-save reactions, and coding pulses.
+This also covers Code Runner when it executes through a VS Code terminal with
+shell integration enabled. Configure it under the `desktopPet.*` settings in
+VS Code. Naruto and Demo Ninja consume the same events and select only
+animations that exist in their active character pack.
 
 ## 🎨 Character packs
 

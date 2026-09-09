@@ -10,7 +10,7 @@
     "url": "https://github.com/Keertilata20/Naruto-Desktop-Pet.git"
   },
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.93.0"
   },
   "main": "./extension.js",
   "activationEvents": [
@@ -48,6 +48,11 @@
           "type": "boolean",
           "default": false,
           "description": "Show a pet reaction after every saved file."
+        },
+        "desktopPet.notifyOnTerminal": {
+          "type": "boolean",
+          "default": true,
+          "description": "React when an integrated-terminal command finishes."
         }
       }
     }
