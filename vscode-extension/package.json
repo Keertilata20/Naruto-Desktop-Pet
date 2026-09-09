@@ -2,7 +2,7 @@
   "name": "desktop-pet-coding-companion",
   "displayName": "Desktop Pet Coding Companion",
   "description": "Send VS Code coding events to the local Desktop Pet.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "desktop-pet-local",
   "license": "MIT",
   "repository": {
