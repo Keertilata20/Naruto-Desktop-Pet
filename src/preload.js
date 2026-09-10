@@ -30,6 +30,7 @@ contextBridge.exposeInMainWorld("desktopPet", {
   },
   recordInteraction: (kind) => ipcRenderer.invoke("record-interaction", kind),
   showContextMenu: () => ipcRenderer.send("show-context-menu"),
+  setIgnoreMouseEvents: (ignore) => ipcRenderer.send("set-ignore-mouse-events", Boolean(ignore)),
   dragStart: () => ipcRenderer.send("drag-start"),
   dragMove: () => ipcRenderer.invoke("drag-move"),
   dragEnd: () => ipcRenderer.send("drag-end"),

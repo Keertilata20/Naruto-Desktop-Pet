@@ -76,6 +76,7 @@ let activeLanguage = "zh-CN";
 let petProfile = { mood: "calm", energy: 100 };
 let spriteLoadPromise;
 let spriteLoadPath = "";
+let mouseEventsIgnored = false;
 
 function text(key, variables = {}) {
   return i18n.t(key, variables, activeLanguage);
@@ -109,6 +110,39 @@ function draw() {
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(frameCanvas, 0, 0);
+}
+
+function setMouseEventsIgnored(ignore) {
+  const nextValue = Boolean(ignore);
+  if (mouseEventsIgnored === nextValue) return;
+  mouseEventsIgnored = nextValue;
+  window.desktopPet.setIgnoreMouseEvents(nextValue);
+}
+
+function pointerHitsVisiblePet(event) {
+  if (!spriteImage || !canvas.width || !canvas.height) return false;
+  const rect = canvas.getBoundingClientRect();
+  if (
+    event.clientX < rect.left
+    || event.clientX >= rect.right
+    || event.clientY < rect.top
+    || event.clientY >= rect.bottom
+  ) return false;
+
+  const x = Math.min(
+    canvas.width - 1,
+    Math.max(0, Math.floor((event.clientX - rect.left) * canvas.width / rect.width)),
+  );
+  const y = Math.min(
+    canvas.height - 1,
+    Math.max(0, Math.floor((event.clientY - rect.top) * canvas.height / rect.height)),
+  );
+  return ctx.getImageData(x, y, 1, 1).data[3] > 8;
+}
+
+function updateMousePassthrough(event) {
+  if (dragStart) return;
+  setMouseEventsIgnored(!pointerHitsVisiblePet(event));
 }
 
 function applyPetLayout() {
@@ -533,7 +567,9 @@ canvas.addEventListener("pointerenter", () => {
   hoverReadyAt = performance.now() + 10000;
   if (state === "idle") playTemporary("waving", 900);
 });
+window.addEventListener("mousemove", updateMousePassthrough, { passive: true });
 window.addEventListener("pointerup", endDrag);
+setMouseEventsIgnored(true);
 window.addEventListener("blur", () => {
   if (!dragStart) return;
   dragStart = null;

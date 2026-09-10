@@ -1729,6 +1729,10 @@ app.whenReady().then(() => {
   ipcMain.on("open-quick-chat-window", createQuickChatWindow);
   ipcMain.on("open-companion-settings", createCompanionSettingsWindow);
   ipcMain.on("show-context-menu", showContextMenu);
+  ipcMain.on("set-ignore-mouse-events", (_event, ignore) => {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    mainWindow.setIgnoreMouseEvents(Boolean(ignore), { forward: true });
+  });
   ipcMain.on("drag-start", beginDrag);
   ipcMain.handle("drag-move", moveDrag);
   ipcMain.on("drag-end", endDrag);
